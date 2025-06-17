@@ -14,7 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(frontEndUrl)
+                .allowedOrigins("https://snap-link-three.vercel.app",
+                        "snaplink.iampruthvi.tech")
                 .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
