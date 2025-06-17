@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Zap, User, LogOut, BarChart3 } from "lucide-react"
 import { useStoreContext } from "../contextApi/ContextApi"
 
 const Navbar = () => {
@@ -12,7 +12,6 @@ const Navbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  // Add scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -37,169 +36,219 @@ const Navbar = () => {
   }
 
   return (
-    <div
-      className={`h-16 z-50 sticky top-0 transition-all duration-300 ${
-        scrolled ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/80" : "bg-transparent"
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-slate-950/80 backdrop-blur-2xl border-b border-purple-500/20 shadow-2xl shadow-purple-500/10"
+          : "bg-transparent"
       }`}
     >
-      <div className="lg:px-14 sm:px-8 px-4 w-full flex justify-between items-center h-full">
-        <Link to="/" className="flex items-center">
-          <h1
-            className={`font-bold text-2xl ${scrolled ? "text-blue-600" : "text-blue-600"} transition-colors duration-300`}
-          >
-            Snap<span className="text-slate-800">Link</span>
-          </h1>
-        </Link>
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo - Completely New Design */}
+          <Link to="/" className="group flex items-center space-x-3">
+            <div className="relative">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <div className="absolute -inset-1 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl blur opacity-30 group-hover:opacity-60 transition-opacity"></div>
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-2xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                SNAP
+              </span>
+              <span className="text-2xl font-black bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                LINK
+              </span>
+            </div>
+          </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <ul className="flex items-center gap-8">
-            <li>
+          {/* Desktop Navigation - New Pill Design */}
+          <div className="hidden lg:flex items-center">
+            <div className="flex items-center space-x-1 bg-slate-900/50 backdrop-blur-xl rounded-2xl p-2 border border-slate-700/50">
               <Link
-                className={`font-medium transition-colors duration-200 ${
-                  path === "/" ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-                }`}
                 to="/"
+                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                  path === "/"
+                    ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                    : "text-gray-300 hover:text-white hover:bg-slate-800/50"
+                }`}
               >
                 Home
               </Link>
-            </li>
-            <li>
               <Link
-                className={`font-medium transition-colors duration-200 ${
-                  path === "/about" ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-                }`}
                 to="/about"
+                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                  path === "/about"
+                    ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                    : "text-gray-300 hover:text-white hover:bg-slate-800/50"
+                }`}
               >
                 About
               </Link>
-            </li>
-            {token && (
-              <li>
+              {token && (
                 <Link
-                  className={`font-medium transition-colors duration-200 ${
-                    path === "/dashboard" ? "text-blue-600" : "text-slate-600 hover:text-blue-600"
-                  }`}
                   to="/dashboard"
+                  className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
+                    path === "/dashboard"
+                      ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg"
+                      : "text-gray-300 hover:text-white hover:bg-slate-800/50"
+                  }`}
                 >
+                  <BarChart3 className="w-4 h-4" />
                   Dashboard
                 </Link>
-              </li>
-            )}
-          </ul>
+              )}
+            </div>
+          </div>
 
-          <div className="flex items-center gap-3">
+          {/* Auth Buttons - New Design */}
+          <div className="hidden lg:flex items-center space-x-4">
             {!token ? (
               <>
-                <Link to="/login" className="text-slate-700 font-medium hover:text-blue-600 transition-colors">
-                  Sign in
+                <Link
+                  to="/login"
+                  className="px-6 py-3 text-gray-300 hover:text-white font-medium transition-colors duration-300 flex items-center gap-2"
+                >
+                  <User className="w-4 h-4" />
+                  Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200"
+                  className="group relative px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25"
                 >
-                  Sign up
+                  <span className="relative z-10">Get Started</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </Link>
               </>
             ) : (
-              <button
-                onClick={onLogOutHandler}
-                className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium px-4 py-2 rounded-lg transition-colors duration-200"
-              >
-                Sign out
-              </button>
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <button
+                  onClick={onLogOutHandler}
+                  className="px-6 py-3 bg-slate-800/50 hover:bg-slate-700/50 text-gray-300 hover:text-white font-medium rounded-xl transition-all duration-300 flex items-center gap-2 border border-slate-700/50"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              </div>
             )}
           </div>
-        </div>
 
-        {/* Mobile Navigation Toggle */}
-        <button
-          onClick={() => setNavbarOpen(!navbarOpen)}
-          className="md:hidden flex items-center"
-          aria-label={navbarOpen ? "Close menu" : "Open menu"}
-        >
-          {navbarOpen ? (
-            <X className={`${scrolled ? "text-slate-800" : "text-blue-600"} w-6 h-6`} />
-          ) : (
-            <Menu className={`${scrolled ? "text-slate-800" : "text-blue-600"} w-6 h-6`} />
-          )}
-        </button>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setNavbarOpen(!navbarOpen)}
+            className="lg:hidden p-2 rounded-xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-xl"
+          >
+            {navbarOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Menu - Completely New Slide Design */}
       <div
-        className={`md:hidden fixed inset-x-0 top-16 bg-white border-b border-slate-200 shadow-lg transition-all duration-300 ease-in-out z-50 ${
-          navbarOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
-        }`}
+        className={`lg:hidden fixed inset-0 z-40 transition-all duration-500 ${navbarOpen ? "visible" : "invisible"}`}
       >
-        <div className="px-4 py-6 space-y-6">
-          <ul className="space-y-4">
-            <li>
+        <div
+          className={`absolute inset-0 bg-slate-950/80 backdrop-blur-xl transition-opacity duration-500 ${
+            navbarOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={closeNavbar}
+        />
+        <div
+          className={`absolute top-0 right-0 h-full w-80 bg-gradient-to-br from-slate-900 to-slate-800 border-l border-purple-500/20 transform transition-transform duration-500 ${
+            navbarOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="p-8 space-y-8">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-xl font-bold text-white">SnapLink</span>
+              </div>
+              <button onClick={closeNavbar} className="p-2 text-gray-400 hover:text-white">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <nav className="space-y-4">
               <Link
-                className={`block font-medium text-lg ${path === "/" ? "text-blue-600" : "text-slate-700"}`}
                 to="/"
                 onClick={closeNavbar}
+                className={`block px-6 py-4 rounded-2xl font-medium transition-all duration-300 ${
+                  path === "/"
+                    ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                    : "text-gray-300 hover:text-white hover:bg-slate-800/50"
+                }`}
               >
                 Home
               </Link>
-            </li>
-            <li>
               <Link
-                className={`block font-medium text-lg ${path === "/about" ? "text-blue-600" : "text-slate-700"}`}
                 to="/about"
                 onClick={closeNavbar}
+                className={`block px-6 py-4 rounded-2xl font-medium transition-all duration-300 ${
+                  path === "/about"
+                    ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                    : "text-gray-300 hover:text-white hover:bg-slate-800/50"
+                }`}
               >
                 About
               </Link>
-            </li>
-            {token && (
-              <li>
+              {token && (
                 <Link
-                  className={`block font-medium text-lg ${path === "/dashboard" ? "text-blue-600" : "text-slate-700"}`}
                   to="/dashboard"
                   onClick={closeNavbar}
+                  className={`block px-6 py-4 rounded-2xl font-medium transition-all duration-300 ${
+                    path === "/dashboard"
+                      ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+                      : "text-gray-300 hover:text-white hover:bg-slate-800/50"
+                  }`}
                 >
                   Dashboard
                 </Link>
-              </li>
-            )}
-          </ul>
+              )}
+            </nav>
 
-          <div className="pt-4 border-t border-slate-200">
-            {!token ? (
-              <div className="flex flex-col gap-3">
-                <Link
-                  to="/login"
-                  className="w-full text-center bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium py-3 rounded-lg transition-colors"
-                  onClick={closeNavbar}
+            <div className="pt-8 border-t border-slate-700/50 space-y-4">
+              {!token ? (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={closeNavbar}
+                    className="block w-full px-6 py-4 text-center bg-slate-800/50 text-gray-300 hover:text-white font-medium rounded-2xl transition-all duration-300"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={closeNavbar}
+                    className="block w-full px-6 py-4 text-center bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-2xl transition-all duration-300"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    onLogOutHandler()
+                    closeNavbar()
+                  }}
+                  className="w-full px-6 py-4 bg-slate-800/50 text-gray-300 hover:text-white font-medium rounded-2xl transition-all duration-300 flex items-center justify-center gap-2"
                 >
-                  Sign in
-                </Link>
-                <Link
-                  to="/register"
-                  className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors"
-                  onClick={closeNavbar}
-                >
-                  Sign up
-                </Link>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  onLogOutHandler()
-                  closeNavbar()
-                }}
-                className="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-medium py-3 rounded-lg transition-colors"
-              >
-                Sign out
-              </button>
-            )}
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   )
 }
 
 export default Navbar
-

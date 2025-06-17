@@ -3,9 +3,9 @@ import { AlertCircle } from "lucide-react"
 const TextField = ({ label, id, type, errors, register, required, message, className, min, value, placeholder }) => {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className={`${className ? className : ""} font-medium text-slate-700 text-sm`}>
+      <label htmlFor={id} className={`${className ? className : ""} font-medium text-gray-300 text-sm`}>
         {label}
-        {required && <span className="text-red-500 ml-0.5">*</span>}
+        {required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
 
       <div className="relative">
@@ -14,11 +14,11 @@ const TextField = ({ label, id, type, errors, register, required, message, class
           id={id}
           placeholder={placeholder}
           className={`
-            w-full px-3 py-2.5 border rounded-lg outline-none transition-all duration-200
+            w-full px-3 py-2.5 border rounded-lg outline-none transition-all duration-200 bg-dark-700/50 backdrop-blur-sm
             ${
               errors[id]?.message
-                ? "border-red-400 bg-red-50 text-red-900 focus:ring-2 focus:ring-red-200"
-                : "border-slate-300 bg-white text-slate-900 focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                ? "border-red-400 text-red-300 focus:ring-2 focus:ring-red-400/50"
+                : "border-dark-600 text-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/30"
             }
             ${className ? className : ""}
           `}
@@ -44,8 +44,8 @@ const TextField = ({ label, id, type, errors, register, required, message, class
 
       {errors[id]?.message && (
         <div className="flex items-center gap-1.5 mt-1">
-          <AlertCircle size={14} className="text-red-500" />
-          <p className="text-xs font-medium text-red-500">{errors[id]?.message}</p>
+          <AlertCircle size={14} className="text-red-400" />
+          <p className="text-xs font-medium text-red-400">{errors[id]?.message}</p>
         </div>
       )}
     </div>
@@ -53,4 +53,3 @@ const TextField = ({ label, id, type, errors, register, required, message, class
 }
 
 export default TextField
-

@@ -1,133 +1,172 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { Facebook, Twitter, Instagram, Linkedin, Mail, MapPin, Phone, Zap, ArrowRight } from "lucide-react"
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-900 text-white pt-16 pb-8 z-40 relative">
-      <div className="container mx-auto px-6 lg:px-14">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
-          {/* Company Info */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">
-              <span className="text-blue-400">Snap</span>Link
-            </h2>
-            <p className="text-slate-300 mb-6 leading-relaxed">
-              Simplifying URL shortening for efficient sharing. Create, manage, and track your links with ease.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
-                <Facebook size={18} />
-              </a>
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
-                <Twitter size={18} />
-              </a>
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
-                <Instagram size={18} />
-              </a>
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-blue-600 transition-colors duration-200">
-                <Linkedin size={18} />
-              </a>
+    <footer className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 border-t border-purple-500/20">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, purple 2px, transparent 2px)`,
+            backgroundSize: "50px 50px",
+          }}
+        ></div>
+      </div>
+
+      <div className="relative z-10">
+        {/* Newsletter Section */}
+        <div className="border-b border-slate-800/50 py-16">
+          <div className="max-w-7xl mx-auto px-6 lg:px-14">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Stay ahead of the{" "}
+                <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                  curve
+                </span>
+              </h2>
+              <p className="text-xl text-gray-400 mb-8">
+                Get the latest updates, tips, and exclusive features delivered to your inbox.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-6 py-4 bg-slate-800/50 border border-slate-700/50 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 backdrop-blur-xl"
+                />
+                <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+                  Subscribe
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Quick Links</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="/" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="/about" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="/dashboard" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="/login" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  Login
-                </a>
-              </li>
-              <li>
-                <a href="/register" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  Register
-                </a>
-              </li>
-            </ul>
-          </div>
+        {/* Main Footer Content */}
+        <div className="py-20">
+          <div className="max-w-7xl mx-auto px-6 lg:px-14">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+              {/* Brand Section */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center">
+                    <Zap className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <span className="text-3xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                      SNAP
+                    </span>
+                    <span className="text-3xl font-black bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                      LINK
+                    </span>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                  The next-generation URL shortening platform built for modern teams. Transform your links, amplify your
+                  reach.
+                </p>
+                <div className="flex space-x-4">
+                  {[Facebook, Twitter, Instagram, Linkedin].map((Icon, index) => (
+                    <a
+                      key={index}
+                      href="#"
+                      className="group w-12 h-12 bg-slate-800/50 border border-slate-700/50 rounded-2xl flex items-center justify-center hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:border-transparent transition-all duration-300"
+                    >
+                      <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+                    </a>
+                  ))}
+                </div>
+              </div>
 
-          {/* Features */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Features</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  URL Shortening
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  Analytics Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  Custom Links
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  QR Codes
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-200">
-                  API Access
-                </a>
-              </li>
-            </ul>
-          </div>
+              {/* Product Links */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-white">Product</h3>
+                <ul className="space-y-4">
+                  {["URL Shortener", "Analytics", "QR Codes", "Custom Domains", "API Access", "Integrations"].map(
+                    (item) => (
+                      <li key={item}>
+                        <a
+                          href="#"
+                          className="text-gray-400 hover:text-purple-400 transition-colors duration-300 flex items-center gap-2 group"
+                        >
+                          <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          {item}
+                        </a>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
 
-          {/* Contact */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Contact Us</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin size={20} className="text-blue-400 mt-0.5" />
-                <span className="text-slate-300">123 Tech Street, San Francisco, CA 94107</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone size={20} className="text-blue-400" />
-                <span className="text-slate-300">+1 (555) 123-4567</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail size={20} className="text-blue-400" />
-                <span className="text-slate-300">support@snaplink.com</span>
-              </li>
-            </ul>
+              {/* Company Links */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-white">Company</h3>
+                <ul className="space-y-4">
+                  {["About Us", "Careers", "Press", "Blog", "Partners", "Contact"].map((item) => (
+                    <li key={item}>
+                      <a
+                        href="#"
+                        className="text-gray-400 hover:text-purple-400 transition-colors duration-300 flex items-center gap-2 group"
+                      >
+                        <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Contact Info */}
+              <div className="space-y-6">
+                <h3 className="text-xl font-bold text-white">Get in Touch</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3 p-4 bg-slate-800/30 rounded-2xl border border-slate-700/30">
+                    <MapPin className="w-5 h-5 text-purple-400 mt-0.5" />
+                    <div>
+                      <p className="text-white font-medium">Headquarters</p>
+                      <p className="text-gray-400 text-sm">San Francisco, CA</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 p-4 bg-slate-800/30 rounded-2xl border border-slate-700/30">
+                    <Mail className="w-5 h-5 text-purple-400 mt-0.5" />
+                    <div>
+                      <p className="text-white font-medium">Email</p>
+                      <p className="text-gray-400 text-sm">hello@snaplink.app</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 p-4 bg-slate-800/30 rounded-2xl border border-slate-700/30">
+                    <Phone className="w-5 h-5 text-purple-400 mt-0.5" />
+                    <div>
+                      <p className="text-white font-medium">Support</p>
+                      <p className="text-gray-400 text-sm">24/7 Available</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 mt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-slate-400 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} SnapLink. All rights reserved.
-          </p>
-          <div className="flex space-x-6">
-            <a href="#" className="text-slate-400 text-sm hover:text-blue-400 transition-colors duration-200">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-slate-400 text-sm hover:text-blue-400 transition-colors duration-200">
-              Terms of Service
-            </a>
-            <a href="#" className="text-slate-400 text-sm hover:text-blue-400 transition-colors duration-200">
-              Cookie Policy
-            </a>
+        <div className="border-t border-slate-800/50 py-8">
+          <div className="max-w-7xl mx-auto px-6 lg:px-14">
+            <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
+              <p className="text-gray-500 text-center lg:text-left">
+                &copy; {new Date().getFullYear()} SnapLink. All rights reserved. Built with ❤️ for the future.
+              </p>
+              <div className="flex flex-wrap justify-center gap-8">
+                {["Privacy Policy", "Terms of Service", "Cookie Policy", "Security"].map((item) => (
+                  <a
+                    key={item}
+                    href="#"
+                    className="text-gray-500 hover:text-purple-400 transition-colors duration-300 text-sm"
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -136,4 +175,3 @@ const Footer = () => {
 }
 
 export default Footer
-

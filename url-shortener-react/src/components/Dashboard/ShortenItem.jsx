@@ -1,174 +1,189 @@
-import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard';
-import { FaExternalLinkAlt, FaRegCalendarAlt } from 'react-icons/fa';
-import { IoCopy } from 'react-icons/io5';
-import { LiaCheckSolid } from 'react-icons/lia';
-import { MdAnalytics, MdOutlineAdsClick } from 'react-icons/md';
-import api from '../../api/api';
-import { Link, useNavigate } from 'react-router-dom';
-import { useStoreContext } from '../../contextApi/ContextApi';
-import { Hourglass } from 'react-loader-spinner';
-import Graph from './Graph';
+"use client"
+
+import dayjs from "dayjs"
+import { useEffect, useState } from "react"
+import CopyToClipboard from "react-copy-to-clipboard"
+import { ExternalLink, Calendar, MousePointer, Copy, Check, BarChart3, ChevronDown, ChevronUp } from "lucide-react"
+import api from "../../api/api"
+import { Link, useNavigate } from "react-router-dom"
+import { useStoreContext } from "../../contextApi/ContextApi"
+import { Hourglass } from "react-loader-spinner"
+import Graph from "./Graph"
 
 const ShortenItem = ({ originalUrl, shortUrl, clickCount, createdDate }) => {
-    const { token } = useStoreContext();
-    const navigate = useNavigate();
-    const [isCopied, setIsCopied] = useState(false);
-    const [analyticToggle, setAnalyticToggle] = useState(false);
-    const [loader, setLoader] = useState(false);
-    const [selectedUrl, setSelectedUrl] = useState("");
-    const [analyticsData, setAnalyticsData] = useState([]);
+  const { token } = useStoreContext()
+  const navigate = useNavigate()
+  const [isCopied, setIsCopied] = useState(false)
+  const [analyticToggle, setAnalyticToggle] = useState(false)
+  const [loader, setLoader] = useState(false)
+  const [selectedUrl, setSelectedUrl] = useState("")
+  const [analyticsData, setAnalyticsData] = useState([])
 
-    const subDomain = import.meta.env.VITE_REACT_FRONT_END_URL.replace(
-        /^https?:\/\//,
-        ""
-      );
+  const subDomain = import.meta.env.VITE_REACT_FRONT_END_URL.replace(/^https?:\/\//, "")
+  const fullShortUrl = `${subDomain}/s/${shortUrl}`
 
-    const analyticsHandler = (shortUrl) => {
-        if (!analyticToggle) {
-            setSelectedUrl(shortUrl);
-        }
-        setAnalyticToggle(!analyticToggle);
+  const analyticsHandler = (shortUrl) => {
+    if (!analyticToggle) {
+      setSelectedUrl(shortUrl)
     }
+    setAnalyticToggle(!analyticToggle)
+  }
 
-    const fetchMyShortUrl = async () => {
-        setLoader(true);
-        try {
-             const { data } = await api.get(`/api/urls/analytics/${selectedUrl}?startDate=2024-12-01T00:00:00&endDate=2025-12-31T23:59:59`, {
-                        headers: {
-                          "Content-Type": "application/json",
-                          Accept: "application/json",
-                          Authorization: "Bearer " + token,
-                        },
-                      });
-            setAnalyticsData(data);
-            setSelectedUrl("");
-            console.log(data);
-            
-        } catch (error) {
-            navigate("/error");
-            console.log(error);
-        } finally {
-            setLoader(false);
-        }
+  const fetchMyShortUrl = async () => {
+    setLoader(true)
+    try {
+      const { data } = await api.get(
+        `/api/urls/analytics/${selectedUrl}?startDate=2024-12-01T00:00:00&endDate=2025-12-31T23:59:59`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+          },
+        },
+      )
+      setAnalyticsData(data)
+      setSelectedUrl("")
+    } catch (error) {
+      navigate("/error")
+      console.log(error)
+    } finally {
+      setLoader(false)
     }
+  }
 
+  useEffect(() => {
+    if (selectedUrl) {
+      fetchMyShortUrl()
+    }
+  }, [selectedUrl])
 
-    useEffect(() => {
-        if (selectedUrl) {
-            fetchMyShortUrl();
-        }
-    }, [selectedUrl]);
+  useEffect(() => {
+    if (isCopied) {
+      const timer = setTimeout(() => setIsCopied(false), 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [isCopied])
 
   return (
-    <div className={`bg-slate-100 shadow-lg border border-dotted  border-slate-500 px-6 sm:py-1 py-3 rounded-md  transition-all duration-100 `}>
-    <div className={`flex sm:flex-row flex-col  sm:justify-between w-full sm:gap-0 gap-5 py-5 `}>
-      <div className="flex-1 sm:space-y-1 max-w-full overflow-x-auto overflow-y-hidden ">
-        <div className="text-slate-900 pb-1 sm:pb-0   flex items-center gap-2 ">
-            {/* <a href={`${import.meta.env.VITE_REACT_SUBDOMAIN}/${shortUrl}`}
-                target="_blank"
-                className=" text-[17px]  font-montserrat font-[600] text-linkColor ">
-                {subDomain + "/" + `${shortUrl}`}
-            </a> */}
+    <div className="group bg-slate-900/50 backdrop-blur-xl rounded-3xl border border-slate-700/30 hover:border-purple-500/30 transition-all duration-500 overflow-hidden">
+      {/* Main Content */}
+      <div className="p-8">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Side - Link Info */}
+          <div className="flex-1 space-y-4">
+            {/* Short URL */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center">
+                  <ExternalLink className="w-5 h-5 text-white" />
+                </div>
+                <Link
+                  target="_blank"
+                  to={import.meta.env.VITE_REACT_FRONT_END_URL + "/s/" + shortUrl}
+                  className="text-xl font-bold text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2 group/link"
+                >
+                  {fullShortUrl}
+                  <ExternalLink className="w-4 h-4 opacity-0 group-hover/link:opacity-100 transition-opacity" />
+                </Link>
+              </div>
 
-            <Link
-              target='_'
-              className='text-[17px]  font-montserrat font-[600] text-linkColor'
-              to={import.meta.env.VITE_REACT_FRONT_END_URL + "/s/" + `${shortUrl}`}>
-                  {subDomain + "/s/" + `${shortUrl}`}
-            </Link>
-            <FaExternalLinkAlt className="text-linkColor" />
+              {/* Original URL */}
+              <div className="pl-13">
+                <p className="text-gray-400 text-sm break-all">{originalUrl}</p>
+              </div>
             </div>
 
-        <div className="flex items-center gap-1 ">
-            <h3 className=" text-slate-700 font-[400] text-[17px] ">
-              {originalUrl}
-            </h3>
+            {/* Stats Row */}
+            <div className="flex flex-wrap items-center gap-6 pt-4">
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-xl border border-green-500/20">
+                <MousePointer className="w-4 h-4 text-green-400" />
+                <span className="text-green-400 font-semibold">{clickCount.toLocaleString()}</span>
+                <span className="text-green-300 text-sm">{clickCount === 1 ? "click" : "clicks"}</span>
+              </div>
+
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50">
+                <Calendar className="w-4 h-4 text-gray-400" />
+                <span className="text-gray-300 text-sm">{dayjs(createdDate).format("MMM DD, YYYY")}</span>
+              </div>
+
+              <div className="px-4 py-2 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                <span className="text-blue-400 text-sm font-medium">Active</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex   items-center gap-8 pt-6 ">
-            <div className="flex gap-1  items-center font-semibold  text-green-800">
-              <span>
-                <MdOutlineAdsClick className="text-[22px] me-1" />
-              </span>
-              <span className="text-[16px]">{clickCount}</span>
-              <span className="text-[15px] ">
-                {clickCount === 0 || clickCount === 1 ? "Click" : "Clicks"}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 font-semibold text-lg text-slate-800">
-              <span>
-                <FaRegCalendarAlt />
-              </span>
-              <span className="text-[17px]">
-                {dayjs(createdDate).format("MMM DD, YYYY")}
-              </span>
-            </div>
-            </div>
-        </div>
-
-        <div className="flex  flex-1  sm:justify-end items-center gap-4">
+          {/* Right Side - Actions */}
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-3 lg:w-48">
             <CopyToClipboard
-                onCopy={() => setIsCopied(true)}
-                text={`${import.meta.env.VITE_REACT_FRONT_END_URL + "/s/" + `${shortUrl}`}`}
+              onCopy={() => setIsCopied(true)}
+              text={import.meta.env.VITE_REACT_FRONT_END_URL + "/s/" + shortUrl}
             >
-                <div className="flex cursor-pointer gap-1 items-center bg-btnColor py-2  font-semibold shadow-md shadow-slate-500 px-6 rounded-md text-white ">
-                <button className="">{isCopied ? "Copied" : "Copy"}</button>
+              <button className="group/copy flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-2xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25">
                 {isCopied ? (
-                    <LiaCheckSolid className="text-md" />
+                  <>
+                    <Check className="w-4 h-4" />
+                    Copied!
+                  </>
                 ) : (
-                    <IoCopy className="text-md" />
+                  <>
+                    <Copy className="w-4 h-4 group-hover/copy:scale-110 transition-transform" />
+                    Copy
+                  </>
                 )}
-                </div>
+              </button>
             </CopyToClipboard>
 
-            <div
-                onClick={() => analyticsHandler(shortUrl)}
-                className="flex cursor-pointer gap-1 items-center bg-rose-700 py-2 font-semibold shadow-md shadow-slate-500 px-6 rounded-md text-white "
+            <button
+              onClick={() => analyticsHandler(shortUrl)}
+              className="flex items-center justify-center gap-3 px-6 py-3 bg-gradient-to-r from-pink-600 to-rose-600 text-white font-semibold rounded-2xl hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25"
             >
-                <button>Analytics</button>
-                <MdAnalytics className="text-md" />
-          </div>
+              <BarChart3 className="w-4 h-4" />
+              Analytics
+              {analyticToggle ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
-    <React.Fragment>
-        <div className={`${
-            analyticToggle ? "flex" : "hidden"
-          }  max-h-96 sm:mt-0 mt-5 min-h-96 relative  border-t-2 w-[100%] overflow-hidden `}>
-            {loader ? (
-                <div className="min-h-[calc(450px-140px)] flex justify-center items-center w-full">
-                    <div className="flex flex-col items-center gap-1">
-                    <Hourglass
-                        visible={true}
-                        height="50"
-                        width="50"
-                        ariaLabel="hourglass-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                        colors={['#306cce', '#72a1ed']}
-                        />
-                        <p className='text-slate-700'>Please Wait...</p>
-                    </div>
+      </div>
+
+      {/* Analytics Section */}
+      {analyticToggle && (
+        <div className="border-t border-slate-700/30 bg-slate-800/30 backdrop-blur-xl">
+          <div className="p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <BarChart3 className="w-5 h-5 text-purple-400" />
+              <h3 className="text-xl font-bold text-white">Detailed Analytics</h3>
+            </div>
+
+            <div className="h-80 relative">
+              {loader ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <Hourglass
+                    visible={true}
+                    height="50"
+                    width="50"
+                    ariaLabel="hourglass-loading"
+                    colors={["#8b5cf6", "#3b82f6"]}
+                  />
+                  <p className="text-gray-400 mt-4">Loading analytics...</p>
                 </div>
-                ) : ( 
-                    <>{analyticsData.length === 0 && (
-                        <div className="absolute flex flex-col  justify-center sm:items-center items-end  w-full left-0 top-0 bottom-0 right-0 m-auto">
-                            <h1 className=" text-slate-800 font-serif sm:text-2xl text-[15px] font-bold mb-1">
-                                No Data For This Time Period
-                            </h1>
-                            <h3 className="sm:w-96 w-[90%] sm:ml-0 pl-6 text-center sm:text-lg text-[12px] text-slate-600 ">
-                                Share your short link to view where your engagements are
-                                coming from
-                            </h3>
-                        </div>
-                    )}
-                        <Graph graphData={analyticsData} />
-                    </>
-                    )}
+              ) : analyticsData.length === 0 ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-full flex items-center justify-center mb-4 border border-purple-500/30">
+                    <BarChart3 className="w-8 h-8 text-purple-400" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white mb-2">No Analytics Data</h4>
+                  <p className="text-gray-400 text-center text-sm max-w-md">
+                    Share this link to start collecting engagement data and analytics insights.
+                  </p>
+                </div>
+              ) : (
+                <Graph graphData={analyticsData} />
+              )}
+            </div>
+          </div>
         </div>
-    </React.Fragment>
+      )}
     </div>
   )
 }
