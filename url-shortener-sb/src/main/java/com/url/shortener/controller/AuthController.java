@@ -4,7 +4,6 @@ import com.url.shortener.dtos.LoginRequest;
 import com.url.shortener.dtos.RegisterRequest;
 import com.url.shortener.models.User;
 import com.url.shortener.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

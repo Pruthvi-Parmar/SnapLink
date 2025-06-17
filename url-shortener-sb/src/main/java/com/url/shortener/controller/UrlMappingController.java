@@ -5,7 +5,6 @@ import com.url.shortener.dtos.UrlMappingDTO;
 import com.url.shortener.models.User;
 import com.url.shortener.service.UrlMappingService;
 import com.url.shortener.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

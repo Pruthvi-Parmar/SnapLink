@@ -2,7 +2,6 @@ package com.url.shortener.controller;
 
 import com.url.shortener.models.UrlMapping;
 import com.url.shortener.service.UrlMappingService;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
